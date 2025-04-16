@@ -5,7 +5,7 @@ import requests
 import zipfile
 from dotenv import load_dotenv
 
-def download_and_extract_table(table_id: str, dest_folder="data"):
+def download_and_extract_table(table_id: str, year: str, dest_folder="data"):
     load_dotenv()
 
     base_url = "https://www-genesis.destatis.de/genesisWS/rest/2020/data/tablefile"
@@ -13,6 +13,7 @@ def download_and_extract_table(table_id: str, dest_folder="data"):
         "username": os.getenv("GENESIS_USERNAME"),
         "password": os.getenv("GENESIS_PASSWORD"),
         "name": table_id,
+        "timeslices": year,
         "type": "csv",
         "language": "de"
     }
