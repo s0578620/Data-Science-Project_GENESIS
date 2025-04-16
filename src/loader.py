@@ -1,12 +1,8 @@
 # src/loader.py
-
+import os
 import pandas as pd
 
-def load_genesis_csv(csv_path: str, zip_name: str = None, save_cleaned: bool = True) -> pd.DataFrame:
-
-    import os
-    import pandas as pd
-
+def load_genesis_csv(csv_path: str, zip_name: str, save_cleaned: bool = True) -> pd.DataFrame:
     encodings_to_try = ["utf-8", "utf-8-sig", "latin1"]
 
     for enc in encodings_to_try:
@@ -21,7 +17,7 @@ def load_genesis_csv(csv_path: str, zip_name: str = None, save_cleaned: bool = T
             df = df[:-3]
             print(f"ℹ️ DataFrame nach Kürzen: {df.shape}")
 
-            # Spalten explizit umbenennen (wenn vorhanden)
+            # Versuche Spalten umzubenennen, falls sie "Unnamed" heißen
             df = df.rename(columns={
                 "Unnamed: 0": "Jahr",
                 "Unnamed: 1": "Kurzzeichen",
@@ -32,21 +28,30 @@ def load_genesis_csv(csv_path: str, zip_name: str = None, save_cleaned: bool = T
                 cleaned_dir = os.path.join("data", "cleaned")
                 os.makedirs(cleaned_dir, exist_ok=True)
 
-                # Nutze zip_name statt CSV-Filename
-                if zip_name is None:
-                    zip_basename = os.path.splitext(os.path.basename(csv_path))[0]
-                else:
-                    zip_basename = os.path.splitext(os.path.basename(zip_name))[0]
+                zip_basename = os.path.splitext(os.path.basename(zip_name))[0]
 
-                cleaned_filename = f"{zip_basename}_cleaned.csv"
+                # Suche nach Spalte, die das Jahr enthält
+                jahr_col = None
+                for col in df.columns:
+                    if "jahr" in col.lower():
+                        jahr_col = col
+                        break
+
+                if not jahr_col:
+                    raise Exception("❌ Keine 'Jahr'-Spalte gefunden.")
+
+                first_year = str(df[jahr_col].iloc[0])
+                print(f"🕵️ Jahr-Spalte erkannt als: '{jahr_col}', erster Wert: {first_year}")
+
+                cleaned_filename = f"{zip_basename}_{first_year}_cleaned.csv"
                 cleaned_path = os.path.join(cleaned_dir, cleaned_filename)
 
                 print(f"💾 Speichere bereinigte Datei unter: {cleaned_path}")
                 df.to_csv(cleaned_path, index=False, sep=";")
-
-                print(f"✅ Bereinigte CSV gespeichert!")
+                print("✅ Bereinigte CSV gespeichert!")
 
             return df
+
         except Exception as e:
             print(f"⚠️ Fehler mit Encoding '{enc}': {e}")
 
