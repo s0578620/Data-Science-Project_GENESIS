@@ -4,7 +4,7 @@ on:
   workflow_dispatch:        # manuell auslösbar
   push:
     branches:
-      - main                # bei Push auf main
+      - master                # bei Push auf main
 
 jobs:
   run-genesis-script:
