@@ -58,7 +58,7 @@ def download_and_extract_table(table_id: str, year: str, dest_folder="data"):
     print(decoded[:500])
     raise Exception("❌ Unerwartetes Dateiformat. Kein ZIP und keine CSV erkannt.")
 
-
+# Downloading all years atm, neeed to be fixed (look Documentary)
 def download_and_extract_table_job(table_id: str, year: str, dest_folder="data"):
     os.makedirs(dest_folder, exist_ok=True)
     job_url = f"{BASE_URL}/tablefile?job=true"
