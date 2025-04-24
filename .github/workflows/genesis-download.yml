@@ -1,0 +1,33 @@
+name: GENESIS CSV Downloader
+
+on:
+  workflow_dispatch:        # manuell auslösbar
+  push:
+    branches:
+      - main                # bei Push auf main
+
+jobs:
+  run-genesis-script:
+    runs-on: ubuntu-latest
+
+    env:
+      GENESIS_USERNAME: ${{ secrets.GENESIS_USERNAME }}
+      GENESIS_PASSWORD: ${{ secrets.GENESIS_PASSWORD }}
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: 📦 Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: ⚙️ Run GENESIS Download Script
+        run: |
+          python -c "from src.download_table import download_and_extract_table; download_and_extract_table('48112-0001', '2022')"

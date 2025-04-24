@@ -3,18 +3,64 @@ import os
 import time
 import requests
 import zipfile
+import io
 from dotenv import load_dotenv
 
 load_dotenv()
 
-BASE_URL = "https://www-genesis.destatis.de/genesisWS/rest/2020/data/tablefile"
+BASE_URL = "https://www-genesis.destatis.de/genesisWS/rest/2020/data"
 USERNAME = os.getenv("GENESIS_USERNAME")
 PASSWORD = os.getenv("GENESIS_PASSWORD")
 
+
+def download_and_extract_table(table_id: str, year: str, dest_folder="data"):
+    """Direkter Download (nur für kleine Tabellen geeignet)."""
+    url = f"{BASE_URL}/tablefile"
+    params = {
+        "username": USERNAME,
+        "password": PASSWORD,
+        "name": table_id,
+        "timeslices": year,
+        "type": "csv",
+        "language": "de"
+    }
+
+    os.makedirs(dest_folder, exist_ok=True)
+    print(f"🌐 Anfrage an GENESIS-API: {table_id} für Jahr {year}")
+    response = requests.get(url, params=params)
+    if response.status_code != 200:
+        raise Exception(f"❌ Download fehlgeschlagen: {response.status_code}, {response.text}")
+
+    file_bytes = io.BytesIO(response.content)
+
+    # ZIP-Datei?
+    if zipfile.is_zipfile(file_bytes):
+        zip_path = os.path.join(dest_folder, f"{table_id}_{year}.zip")
+        with open(zip_path, "wb") as f:
+            f.write(response.content)
+        with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+            zip_ref.extractall(dest_folder)
+            csv_files = [f for f in zip_ref.namelist() if f.endswith(".csv")]
+        if not csv_files:
+            raise Exception("❌ Keine CSV-Datei im ZIP gefunden.")
+        return os.path.join(dest_folder, csv_files[0])
+
+    # Direkte CSV?
+    decoded = response.content.decode("utf-8", errors="ignore")
+    if decoded.strip().startswith("﻿") or ";" in decoded:
+        csv_path = os.path.join(dest_folder, f"{table_id}_{year}_direct.csv")
+        with open(csv_path, "w", encoding="utf-8") as f:
+            f.write(decoded)
+        return csv_path
+
+    # Fehlertext ausgeben
+    print("🪵 Serverantwort-Vorschau (erste 500 Zeichen):")
+    print(decoded[:500])
+    raise Exception("❌ Unerwartetes Dateiformat. Kein ZIP und keine CSV erkannt.")
+
+
 def download_and_extract_table_job(table_id: str, year: str, dest_folder="data"):
     os.makedirs(dest_folder, exist_ok=True)
-
-    # Schritt 1: Job starten
     job_url = f"{BASE_URL}/tablefile?job=true"
     payload = {
         "username": USERNAME,
@@ -26,7 +72,9 @@ def download_and_extract_table_job(table_id: str, year: str, dest_folder="data")
     }
 
     print(f"🚀 Starte Job für {table_id} ({year})")
-    response = requests.post(job_url, json=payload)  # ← richtiges Format
+
+    # ❗ Richtige Übergabeform, kein json=...
+    response = requests.post(job_url, data=payload)
 
     if response.status_code != 200:
         raise Exception(f"❌ Job konnte nicht gestartet werden: {response.text}")
@@ -34,20 +82,18 @@ def download_and_extract_table_job(table_id: str, year: str, dest_folder="data")
     job_id = response.text.strip()
     print(f"🕒 Job gestartet: {job_id}")
 
-    # Schritt 2: Polling auf Status
+    # Polling
     status_url = f"{BASE_URL}/statusfile?job={job_id}"
     for i in range(30):
         print(f"⏳ Warte auf Fertigstellung... ({i+1}/30)")
         time.sleep(5)
         status_resp = requests.get(status_url)
-        if status_resp.status_code != 200:
-            continue
-        if "ZIP" in status_resp.text.upper():
+        if status_resp.status_code == 200 and "ZIP" in status_resp.text.upper():
             break
     else:
         raise Exception("❌ Zeitüberschreitung beim Warten auf Fertigstellung")
 
-    # Schritt 3: Datei abrufen
+    # Ergebnis abrufen
     file_url = f"{BASE_URL}/resultfile?job={job_id}"
     result = requests.get(file_url)
     if result.status_code != 200:
@@ -57,7 +103,6 @@ def download_and_extract_table_job(table_id: str, year: str, dest_folder="data")
     with open(zip_path, "wb") as f:
         f.write(result.content)
 
-    # Schritt 4: Entpacken
     with zipfile.ZipFile(zip_path, 'r') as zip_ref:
         zip_ref.extractall(dest_folder)
         csv_files = [f for f in zip_ref.namelist() if f.endswith(".csv")]
@@ -68,3 +113,15 @@ def download_and_extract_table_job(table_id: str, year: str, dest_folder="data")
     csv_path = os.path.join(dest_folder, csv_files[0])
     print(f"✅ CSV extrahiert: {csv_path}")
     return csv_path
+
+
+# Am Ende von src/download_table_auto.py
+def download_and_extract_table_auto(table_id: str, year: str, dest_folder="data"):
+    try:
+        print("⚡ Versuche Direkt-Download...")
+        return download_and_extract_table(table_id, year, dest_folder)
+    except Exception as e:
+        if "zu gross" in str(e).lower() or "unerwartetes" in str(e).lower():
+            print("↪️ Fallback: Job-Modus...")
+            return download_and_extract_table_job(table_id, year, dest_folder)
+        raise
