@@ -1,0 +1,91 @@
+Jahr;Kurzzeichen;Wirtschaftszweige;Unternehmen (EU);Waren- und Dienstleistungskäufe;Käufe v.Waren u.DL z.Wiederverk. i.unveränd. Zust.;Aufwendungen für Leiharbeitnehmer;Käufe von Energieprodukten;Vorratsveränd. bei fertigen und unfertigen Waren;Vorratsveränderungen bei Waren;Vorratsveränderungen bei Waren f. d. Wiederverkauf;Bruttoinvestitionen in Sachanlagen;Bruttoinvestitionen in Maschinen und Ausrüstungen;Bruttoinvest. in langfrist. immat. Vermögenswerte;Kosten für Rohstoffe bzw. Rohstoffeinkauf;Rohstoffverbrauch;Handelswareneinsatz;Zahlungen an Unterauftragnehmer;Einkünfte aus Unteraufträgen;Kosten für Mieten und Pachten
+2018;WZ08-B;Bergbau und Gewinnung von Steinen und Erden;1540;16012;4873;91;.;.;-;.;1511;.;.;.;.;.;.;.;-
+2018;WZ08-C;Verarbeitendes Gewerbe;206043;1689418;354768;21203;.;.;-;.;76645;.;.;.;.;.;.;.;-
+2018;WZ08-D;Energieversorgung;67984;555240;6802;221;.;.;-;.;14899;.;.;.;.;.;.;.;-
+2018;WZ08-E;Wasserversorg.,Entsorg.,Beseitig.v.Umweltverschm.;10395;41009;3884;386;.;.;-;.;8624;.;.;.;.;.;.;.;-
+2018;WZ08-F;Baugewerbe;357187;191721;4695;56;.;.;-;.;10086;.;.;.;.;.;.;.;-
+2018;WZ08-G;Handel, Instandhaltung und Reparatur von Kfz;582198;1724899;1501065;5260;.;.;-;.;31883;.;.;.;.;.;.;.;-
+2018;WZ08-H;Verkehr und Lagerei;108834;228018;107499;3120;.;.;-;.;29144;.;.;.;.;.;.;.;-
+2018;WZ08-I;Gastgewerbe;234532;51280;1396;915;.;.;-;.;5122;.;.;.;.;.;.;.;-
+2018;WZ08-J;Information und Kommunikation;130010;175148;79947;1035;.;.;-;.;14885;.;.;.;.;.;.;.;-
+2018;WZ08-K;Erbringung von Finanz- und Versicherungsleistungen;-;-;-;-;.;.;-;.;-;.;.;.;.;.;.;.;-
+2018;WZ08-L;Grundstücks- und Wohnungswesen;167054;53268;19404;102;.;.;-;.;50466;.;.;.;.;.;.;.;-
+2018;WZ08-M;Freiberufliche, wiss. u. techn. Dienstleistungen;500226;148120;55577;851;.;.;-;.;9889;.;.;.;.;.;.;.;-
+2018;WZ08-N;Sonstige wirtschaftliche Dienstleistungen;221234;114102;66997;1130;.;.;-;.;32129;.;.;.;.;.;.;.;-
+2018;WZ08-P;Erziehung und Unterricht;-;-;-;-;.;.;-;.;-;.;.;.;.;.;.;.;-
+2018;WZ08-Q;Gesundheits- und Sozialwesen;-;-;-;-;.;.;-;.;-;.;.;.;.;.;.;.;-
+2018;WZ08-R;Kunst, Unterhaltung und Erholung;-;-;-;-;.;.;-;.;-;.;.;.;.;.;.;.;-
+2018;WZ08-S;Erbringung von sonstigen Dienstleistungen;13689;1788;738;20;.;.;-;.;78;.;.;.;.;.;.;.;-
+2018;;Insgesamt;2600925;4990023;2207646;34390;.;.;-;.;285361;.;.;.;.;.;.;.;-
+2019;WZ08-B;Bergbau und Gewinnung von Steinen und Erden;1561;7217;2016;49;.;.;-;.;951;.;.;.;.;.;.;.;-
+2019;WZ08-C;Verarbeitendes Gewerbe;212550;1703533;356934;18305;.;.;-;.;78679;.;.;.;.;.;.;.;-
+2019;WZ08-D;Energieversorgung;72797;560961;6401;209;.;.;-;.;18602;.;.;.;.;.;.;.;-
+2019;WZ08-E;Wasserversorg.,Entsorg.,Beseitig.v.Umweltverschm.;10229;42257;3380;431;.;.;-;.;8975;.;.;.;.;.;.;.;-
+2019;WZ08-F;Baugewerbe;376853;211085;6038;45;.;.;-;.;10752;.;.;.;.;.;.;.;-
+2019;WZ08-G;Handel, Instandhaltung und Reparatur von Kfz;574827;1800469;1563957;4708;.;.;-;.;33022;.;.;.;.;.;.;.;-
+2019;WZ08-H;Verkehr und Lagerei;105903;223106;100455;2788;.;.;-;.;32030;.;.;.;.;.;.;.;-
+2019;WZ08-I;Gastgewerbe;236184;54376;1521;966;.;.;-;.;4873;.;.;.;.;.;.;.;-
+2019;WZ08-J;Information und Kommunikation;127191;177329;84166;773;.;.;-;.;17402;.;.;.;.;.;.;.;-
+2019;WZ08-K;Erbringung von Finanz- und Versicherungsleistungen;-;-;-;-;.;.;-;.;-;.;.;.;.;.;.;.;-
+2019;WZ08-L;Grundstücks- und Wohnungswesen;159841;56831;23551;107;.;.;-;.;49394;.;.;.;.;.;.;.;-
+2019;WZ08-M;Freiberufliche, wiss. u. techn. Dienstleistungen;486480;157284;63884;863;.;.;-;.;12892;.;.;.;.;.;.;.;-
+2019;WZ08-N;Sonstige wirtschaftliche Dienstleistungen;215884;126483;74823;1268;.;.;-;.;34069;.;.;.;.;.;.;.;-
+2019;WZ08-P;Erziehung und Unterricht;-;-;-;-;.;.;-;.;-;.;.;.;.;.;.;.;-
+2019;WZ08-Q;Gesundheits- und Sozialwesen;-;-;-;-;.;.;-;.;-;.;.;.;.;.;.;.;-
+2019;WZ08-R;Kunst, Unterhaltung und Erholung;-;-;-;-;.;.;-;.;-;.;.;.;.;.;.;.;-
+2019;WZ08-S;Erbringung von sonstigen Dienstleistungen;12380;1697;846;14;.;.;-;.;77;.;.;.;.;.;.;.;-
+2019;;Insgesamt;2592680;5122628;2287973;30526;.;.;-;.;301717;.;.;.;.;.;.;.;-
+2020;WZ08-B;Bergbau und Gewinnung von Steinen und Erden;1663;7013;1653;76;.;.;-;.;856;.;.;.;.;.;.;.;-
+2020;WZ08-C;Verarbeitendes Gewerbe;220608;1560143;335474;14874;.;.;-;.;68154;.;.;.;.;.;.;.;-
+2020;WZ08-D;Energieversorgung;62531;517953;6217;231;.;.;-;.;20388;.;.;.;.;.;.;.;-
+2020;WZ08-E;Wasserversorg.,Entsorg.,Beseitig.v.Umweltverschm.;10009;42437;2364;367;.;.;-;.;9433;.;.;.;.;.;.;.;-
+2020;WZ08-F;Baugewerbe;393852;227470;6751;45;.;.;-;.;11079;.;.;.;.;.;.;.;-
+2020;WZ08-G;Handel, Instandhaltung und Reparatur von Kfz;542120;1798232;1560324;5353;.;.;-;.;29109;.;.;.;.;.;.;.;-
+2020;WZ08-H;Verkehr und Lagerei;98486;205968;96069;2797;.;.;-;.;28264;.;.;.;.;.;.;.;-
+2020;WZ08-I;Gastgewerbe;214558;34941;1157;425;.;.;-;.;3337;.;.;.;.;.;.;.;-
+2020;WZ08-J;Information und Kommunikation;120459;171606;80088;803;.;.;-;.;15417;.;.;.;.;.;.;.;-
+2020;WZ08-K;Erbringung von Finanz- und Versicherungsleistungen;-;-;-;-;.;.;-;.;-;.;.;.;.;.;.;.;-
+2020;WZ08-L;Grundstücks- und Wohnungswesen;157593;53922;21403;151;.;.;-;.;42667;.;.;.;.;.;.;.;-
+2020;WZ08-M;Freiberufliche, wiss. u. techn. Dienstleistungen;451336;153221;61623;826;.;.;-;.;11570;.;.;.;.;.;.;.;-
+2020;WZ08-N;Sonstige wirtschaftliche Dienstleistungen;201659;101022;54322;1177;.;.;-;.;31721;.;.;.;.;.;.;.;-
+2020;WZ08-P;Erziehung und Unterricht;-;-;-;-;.;.;-;.;-;.;.;.;.;.;.;.;-
+2020;WZ08-Q;Gesundheits- und Sozialwesen;-;-;-;-;.;.;-;.;-;.;.;.;.;.;.;.;-
+2020;WZ08-R;Kunst, Unterhaltung und Erholung;-;-;-;-;.;.;-;.;-;.;.;.;.;.;.;.;-
+2020;WZ08-S;Erbringung von sonstigen Dienstleistungen;10930;1525;819;13;.;.;-;.;79;.;.;.;.;.;.;.;-
+2020;;Insgesamt;2485804;4875453;2228264;27136;.;.;-;.;272073;.;.;.;.;.;.;.;-
+2021;WZ08-B;Bergbau und Gewinnung von Steinen und Erden;1592;10683;4907;60;.;.;56;.;1244;.;.;.;.;.;.;.;937
+2021;WZ08-C;Verarbeitendes Gewerbe;206391;1798391;359985;16485;.;.;48308;.;74492;.;.;.;.;.;.;.;48126
+2021;WZ08-D;Energieversorgung;63817;757004;8788;269;.;.;1399;.;21246;.;.;.;.;.;.;.;3816
+2021;WZ08-E;Wasserversorg.,Entsorg.,Beseitig.v.Umweltverschm.;9127;47777;2994;316;.;.;561;.;8363;.;.;.;.;.;.;.;1404
+2021;WZ08-F;Baugewerbe;380348;243432;5794;67;.;.;1102;.;11738;.;.;.;.;.;.;.;26096
+2021;WZ08-G;Handel, Instandhaltung und Reparatur von Kfz;537821;1867132;1587655;4523;.;.;22113;.;34336;.;.;.;.;.;.;.;40308
+2021;WZ08-H;Verkehr und Lagerei;100471;234033;112093;3553;.;.;3215;.;33979;.;.;.;.;.;.;.;12358
+2021;WZ08-I;Gastgewerbe;222777;38670;3437;299;.;.;45;.;5862;.;.;.;.;.;.;.;9203
+2021;WZ08-J;Information und Kommunikation;129086;182219;84710;1168;.;.;1449;.;17172;.;.;.;.;.;.;.;10212
+2021;WZ08-K;Erbringung von Finanz- und Versicherungsleistungen;69915;191947;1402;523;.;.;548;.;17780;.;.;.;.;.;.;.;16174
+2021;WZ08-L;Grundstücks- und Wohnungswesen;199991;58789;19778;171;.;.;1416;.;86851;.;.;.;.;.;.;.;3492
+2021;WZ08-M;Freiberufliche, wiss. u. techn. Dienstleistungen;471160;159848;64047;1242;.;.;9239;.;13649;.;.;.;.;.;.;.;11407
+2021;WZ08-N;Sonstige wirtschaftliche Dienstleistungen;217729;107100;53685;1709;.;.;9388;.;38609;.;.;.;.;.;.;.;7114
+2021;WZ08-P;Erziehung und Unterricht;50499;9478;1597;57;.;.;92;.;1726;.;.;.;.;.;.;.;1942
+2021;WZ08-Q;Gesundheits- und Sozialwesen;253871;117275;19294;2892;.;.;977;.;23830;.;.;.;.;.;.;.;13734
+2021;WZ08-R;Kunst, Unterhaltung und Erholung;77559;15179;2489;151;.;.;238;.;2912;.;.;.;.;.;.;.;2834
+2021;WZ08-S;Erbringung von sonstigen Dienstleistungen;162528;13089;3816;205;.;.;1882;.;1489;.;.;.;.;.;.;.;1866
+2021;;Insgesamt;3154683;5852046;2336469;33692;.;.;102026;.;395280;.;.;.;.;.;.;.;211023
+2022;WZ08-B;Bergbau und Gewinnung von Steinen und Erden;1575;19967;13988;48;875;93;155;.;912;566;51;2897;3079;14207;320;.;714
+2022;WZ08-C;Verarbeitendes Gewerbe;204554;2152012;433498;19243;71989;35101;71292;.;82356;62258;5346;1273761;1266021;563333;55728;.;51083
+2022;WZ08-D;Energieversorgung;66352;1314052;21195;289;.;209;12018;.;24210;22222;871;34251;37759;21245;620;.;4681
+2022;WZ08-E;Wasserversorg.,Entsorg.,Beseitig.v.Umweltverschm.;9838;53815;3280;334;.;135;319;.;9554;7891;153;18660;18948;7286;2434;.;1390
+2022;WZ08-F;Baugewerbe;382005;257501;8198;113;7511;23876;2048;.;13342;9435;.;117137;118738;9343;89868;17243;26792
+2022;WZ08-G;Handel, Instandhaltung und Reparatur von Kfz;537521;2107014;1807496;4934;.;45;30510;26529;42496;25635;.;79871;75956;1843951;.;.;42507
+2022;WZ08-H;Verkehr und Lagerei;100877;308587;155525;4185;.;-1766;-571;.;39155;29043;.;51676;51368;155206;.;.;14197
+2022;WZ08-I;Gastgewerbe;228672;58501;4358;750;.;24;447;.;6985;3227;.;23701;23338;4336;.;.;11542
+2022;WZ08-J;Information und Kommunikation;130517;205718;93473;1605;.;1464;2855;.;19894;17849;.;21586;21294;93200;.;.;10441
+2022;WZ08-K;Erbringung von Finanz- und Versicherungsleistungen;69740;230406;1541;791;.;-352;131;.;20005;8449;.;584;88;8378;.;.;26005
+2022;WZ08-L;Grundstücks- und Wohnungswesen;185567;64219;21449;423;.;-135;1368;.;92135;7349;.;11798;11092;21064;.;.;3922
+2022;WZ08-M;Freiberufliche, wiss. u. techn. Dienstleistungen;470484;179819;73617;1442;.;-2977;-552;.;17023;7917;.;20457;18954;72762;.;.;12135
+2022;WZ08-N;Sonstige wirtschaftliche Dienstleistungen;222828;144271;70895;1990;.;1081;13422;.;41396;35664;.;19108;18783;59007;.;.;8535
+2022;WZ08-P;Erziehung und Unterricht;54156;11765;2181;98;.;43;66;.;1724;956;.;877;883;2156;.;.;2316
+2022;WZ08-Q;Gesundheits- und Sozialwesen;242042;122214;20884;4019;.;272;530;.;25296;9625;.;40280;40582;21354;.;.;14453
+2022;WZ08-R;Kunst, Unterhaltung und Erholung;83234;21405;5040;235;.;-7;122;.;2735;1626;.;2407;2429;4932;.;.;3212
+2022;WZ08-S;Erbringung von sonstigen Dienstleistungen;169754;15716;4909;146;.;242;536;.;3510;1207;.;2837;2509;4943;.;.;2132
+2022;;Insgesamt;3159716;7266981;2741525;40643;80376;57350;134694;26529;442730;250919;6421;1721890;1711821;2906700;148971;17243;236057
