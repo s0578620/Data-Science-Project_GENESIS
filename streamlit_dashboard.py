@@ -38,28 +38,31 @@ if uploaded_files:
 
     df_all = pd.concat(df_list, ignore_index=True)
 
-    #Sidebar Einstellungen
+    # Sidebar
     st.sidebar.header("Einstellungen")
 
     raw_features = st.sidebar.multiselect(
         "Numerische Spalten zur Analyse:",
         options=df_all.columns.tolist(),
-        default=["T\u00e4tige Personen", "Umsatz"]
+        default=["Tätige Personen", "Umsatz"]
     )
 
+    log_transform_umsatz = st.sidebar.checkbox("Umsatz log-transformieren?", value=True)
+
     jahr_auswahl = st.sidebar.multiselect(
-        "Jahre ausw\u00e4hlen:",
+        "Jahre auswählen:",
         options=sorted(df_all["Jahr"].unique()),
         default=sorted(df_all["Jahr"].unique())
     )
 
     k = st.sidebar.slider("Anzahl Cluster (k)", min_value=2, max_value=10, value=3)
 
+    # Filtering
     df_filtered = df_all[df_all["Jahr"].isin(jahr_auswahl)]
     df_filtered = clean_genesis_dataframe(df_filtered, raw_features)
 
     # Optional: Log-Transformation Umsatz
-    if "Umsatz" in raw_features:
+    if "Umsatz" in raw_features and log_transform_umsatz:
         df_filtered["Umsatz_log"] = np.log1p(df_filtered["Umsatz"])
         features = [col if col != "Umsatz" else "Umsatz_log" for col in raw_features]
     else:
