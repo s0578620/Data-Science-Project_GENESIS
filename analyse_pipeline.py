@@ -10,7 +10,7 @@ import numpy as np
 from genesis_preprocessing import clean_genesis_dataframe
 
 # 📄 CSV laden
-file_path = "data/merged/48112-0001_48112-0003_2018_merged.csv"
+file_path = ".zmp/merged/48112-0001_48112-0003_2018_merged.csv"
 features = ["Tätige Personen", "Umsatz_log"]  # Log-transformierte Version verwenden
 
 print("📥 Lade Datei:", file_path)

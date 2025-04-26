@@ -20,7 +20,8 @@ def download_and_extract_table(table_id: str, year: str, dest_folder="data"):
         "username": USERNAME,
         "password": PASSWORD,
         "name": table_id,
-        "timeslices": year,
+        "startyear": year,
+        "endyear": year,
         "type": "csv",
         "language": "de"
     }
@@ -66,14 +67,14 @@ def download_and_extract_table_job(table_id: str, year: str, dest_folder="data")
         "username": USERNAME,
         "password": PASSWORD,
         "name": table_id,
-        "timeslices": year,
+        "startyear": year,
+        "endyear": year,
         "type": "csv",
         "language": "de"
     }
 
     print(f"🚀 Starte Job für {table_id} ({year})")
 
-    # ❗ Richtige Übergabeform, kein json=...
     response = requests.post(job_url, data=payload)
 
     if response.status_code != 200:
@@ -82,7 +83,6 @@ def download_and_extract_table_job(table_id: str, year: str, dest_folder="data")
     job_id = response.text.strip()
     print(f"🕒 Job gestartet: {job_id}")
 
-    # Polling
     status_url = f"{BASE_URL}/statusfile?job={job_id}"
     for i in range(30):
         print(f"⏳ Warte auf Fertigstellung... ({i+1}/30)")
@@ -93,7 +93,6 @@ def download_and_extract_table_job(table_id: str, year: str, dest_folder="data")
     else:
         raise Exception("❌ Zeitüberschreitung beim Warten auf Fertigstellung")
 
-    # Ergebnis abrufen
     file_url = f"{BASE_URL}/resultfile?job={job_id}"
     result = requests.get(file_url)
     if result.status_code != 200:
@@ -113,6 +112,7 @@ def download_and_extract_table_job(table_id: str, year: str, dest_folder="data")
     csv_path = os.path.join(dest_folder, csv_files[0])
     print(f"✅ CSV extrahiert: {csv_path}")
     return csv_path
+
 
 
 # Am Ende von src/download_table_auto.py
