@@ -1,4 +1,3 @@
-# streamlit_dashboard.py
 import pandas as pd
 import numpy as np
 import plotly.express as px
@@ -9,75 +8,99 @@ from sklearn.decomposition import PCA
 from genesis_preprocessing import clean_genesis_dataframe
 
 st.set_page_config(page_title="Branchen-Cluster Dashboard", layout="wide")
-st.title("📊 Branchen-Cluster Analyse")
+st.title("Branchen-Cluster Analyse \u00fcber mehrere Jahre")
 
-# 📁 Datei-Auswahl
-uploaded_file = st.file_uploader("Wähle eine CSV-Datei aus (GENESIS-Format)", type="csv")
+# Helper Functions
+def cluster_and_pca(df, features, k):
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(df[features])
 
-if uploaded_file:
-    df_raw = pd.read_csv(uploaded_file, sep=";")
+    kmeans = KMeans(n_clusters=k, random_state=42)
+    df["Cluster"] = kmeans.fit_predict(X_scaled)
 
-    # 🧼 Spaltenauswahl
-    st.sidebar.header("🔧 Einstellungen")
+    pca = PCA(n_components=2)
+    pca_result = pca.fit_transform(X_scaled)
+    df["PCA1"] = pca_result[:, 0]
+    df["PCA2"] = pca_result[:, 1]
+
+    return df
+
+uploaded_files = st.file_uploader("W\u00e4hle eine oder mehrere CSV-Dateien (GENESIS-Format)", type="csv", accept_multiple_files=True)
+
+if uploaded_files:
+    df_list = []
+    for file in uploaded_files:
+        df = pd.read_csv(file, sep=";")
+        parts = file.name.split("_")
+        year = parts[2] if len(parts) > 2 else "Unbekannt"
+        df["Jahr"] = year
+        df_list.append(df)
+
+    df_all = pd.concat(df_list, ignore_index=True)
+
+    #Sidebar Einstellungen
+    st.sidebar.header("Einstellungen")
+
     raw_features = st.sidebar.multiselect(
         "Numerische Spalten zur Analyse:",
-        options=df_raw.columns.tolist(),
-        default=["Tätige Personen", "Umsatz"]
+        options=df_all.columns.tolist(),
+        default=["T\u00e4tige Personen", "Umsatz"]
     )
 
-    jahr_col = st.sidebar.selectbox("Jahr-Spalte (optional):", ["None"] + list(df_raw.columns), index=1)
+    jahr_auswahl = st.sidebar.multiselect(
+        "Jahre ausw\u00e4hlen:",
+        options=sorted(df_all["Jahr"].unique()),
+        default=sorted(df_all["Jahr"].unique())
+    )
 
-    # 💡 Daten bereinigen
-    df = clean_genesis_dataframe(df_raw, raw_features)
+    k = st.sidebar.slider("Anzahl Cluster (k)", min_value=2, max_value=10, value=3)
+
+    df_filtered = df_all[df_all["Jahr"].isin(jahr_auswahl)]
+    df_filtered = clean_genesis_dataframe(df_filtered, raw_features)
+
+    # Optional: Log-Transformation Umsatz
     if "Umsatz" in raw_features:
-        df["Umsatz_log"] = np.log1p(df["Umsatz"])
+        df_filtered["Umsatz_log"] = np.log1p(df_filtered["Umsatz"])
         features = [col if col != "Umsatz" else "Umsatz_log" for col in raw_features]
     else:
         features = raw_features
 
-    df_clean = df.dropna(subset=features).copy()
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(df_clean[features])
+    df_clean = df_filtered.dropna(subset=features).copy()
 
-    # 🔢 Cluster-Anzahl
-    k = st.sidebar.slider("Anzahl Cluster (k)", min_value=2, max_value=10, value=3)
-    kmeans = KMeans(n_clusters=k, random_state=42)
-    df_clean["Cluster"] = kmeans.fit_predict(X_scaled)
+    # Cluster und PCA anwenden
+    df_clustered = cluster_and_pca(df_clean, features, k)
 
-    # 🎨 PCA
-    pca = PCA(n_components=2)
-    pca_result = pca.fit_transform(X_scaled)
-    df_clean["PCA1"] = pca_result[:, 0]
-    df_clean["PCA2"] = pca_result[:, 1]
-
-    # 📊 Cluster-Plot
-    st.subheader("📍 PCA 2D-Visualisierung der Cluster")
+    #Visualisierungen
+    st.subheader("PCA 2D-Visualisierung der Cluster")
     fig = px.scatter(
-        df_clean, x="PCA1", y="PCA2", color=df_clean["Cluster"].astype(str),
-        hover_data=["Wirtschaftszweige"] if "Wirtschaftszweige" in df_clean.columns else features,
-        title="Cluster basierend auf: " + ", ".join(features)
+        df_clustered, x="PCA1", y="PCA2", color=df_clustered["Cluster"].astype(str),
+        hover_data=["Wirtschaftszweige"] if "Wirtschaftszweige" in df_clustered.columns else features,
+        title="Cluster basierend auf: " + ", ".join(features),
+        animation_frame="Jahr" if len(jahr_auswahl) > 1 else None
     )
     st.plotly_chart(fig, use_container_width=True)
 
-    # 📋 Kennzahlen pro Cluster
-    st.subheader("📑 Durchschnittswerte je Cluster")
-    st.dataframe(df_clean.groupby("Cluster")[features].mean().round(2))
+    st.subheader("Durchschnittswerte je Cluster und Jahr")
+    avg_table = df_clustered.groupby(["Jahr", "Cluster"])[features].mean().round(2)
+    st.dataframe(avg_table)
 
-    # 📈 Zeitreihe (falls vorhanden)
-    if jahr_col != "None" and jahr_col in df_clean.columns:
-        df_clean[jahr_col] = pd.to_numeric(df_clean[jahr_col], errors="coerce").astype("Int64")
-        st.subheader("📈 Zeitliche Entwicklung je Cluster")
-        zeit = df_clean.groupby([jahr_col, "Cluster"])[features[0]].sum().reset_index()
-        fig = px.line(
-            zeit, x=jahr_col, y=features[0], color="Cluster",
-            title=f"Entwicklung von {features[0]} über Zeit"
+    if "Jahr" in df_clustered.columns:
+        st.subheader("Zeitliche Entwicklung eines Merkmals")
+        feature_to_plot = st.selectbox("Wähle ein Merkmal für die Zeitreihe:", features)
+
+        zeit = df_clustered.groupby(["Jahr", "Cluster"])[feature_to_plot].sum().reset_index()
+        fig_line = px.line(
+            zeit, x="Jahr", y=feature_to_plot, color="Cluster",
+            markers=True,
+            title=f"Entwicklung von {feature_to_plot} \u00fcber die Jahre"
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig_line, use_container_width=True)
 
-    # 💾 CSV Export
+    #CSV Export
     st.sidebar.markdown("---")
     st.sidebar.download_button(
-        "📥 Exportiere Cluster-Zuordnung", df_clean.to_csv(index=False, sep=";"),
-        file_name="cluster_ergebnis.csv",
+        "Exportiere Cluster-Ergebnisse",
+        df_clustered.to_csv(index=False, sep=";"),
+        file_name="cluster_ergebnisse_mehrere_jahre.csv",
         mime="text/csv"
     )
