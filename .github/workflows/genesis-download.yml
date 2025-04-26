@@ -31,4 +31,4 @@ jobs:
 
       - name: ⚙️ Run GENESIS Download Script
         run: |
-          python -c "import os, sys; sys.path.append(os.path.abspath('src')); from src.download_table_auto import download_and_extract_table_auto; from src.loader import load_genesis_csv; code = '48112-0002'; c_year = '2022'; csv_path = download_and_extract_table_auto(code, c_year, dest_folder='data/raw'); df = load_genesis_csv(csv_path, zip_name=code+'_'+c_year); print(df.head())"
+          python -c "import os, sys; sys.path.append(os.path.abspath('src')); from src.download_table_auto import download_and_extract_table_auto; from src.loader import load_genesis_csv; code = '48112-0002'; c_year = '2022'; csv_path = download_and_extract_table_auto(code, c_year, dest_folder='data/raw'); df = load_genesis_csv(csv_path, zip_name=code); print(df.head())"

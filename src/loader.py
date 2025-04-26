@@ -13,11 +13,9 @@ def load_genesis_csv(csv_path: str, zip_name: str, save_cleaned: bool = True) ->
             print(df.columns.tolist())
             print(f"✅ Erfolgreich geladen mit Encoding: {enc}")
 
-            # Letzte 3 Zeilen entfernen
             df = df[:-3]
             print(f"ℹ️ DataFrame nach Kürzen: {df.shape}")
 
-            # Versuche Spalten umzubenennen, falls sie "Unnamed" heißen
             df = df.rename(columns={
                 "Unnamed: 0": "Jahr",
                 "Unnamed: 1": "Kurzzeichen",
@@ -30,7 +28,6 @@ def load_genesis_csv(csv_path: str, zip_name: str, save_cleaned: bool = True) ->
 
                 zip_basename = os.path.splitext(os.path.basename(zip_name))[0]
 
-                # Suche nach Spalte, die das Jahr enthält
                 jahr_col = None
                 for col in df.columns:
                     if "jahr" in col.lower():
