@@ -14,7 +14,6 @@ PASSWORD = os.getenv("GENESIS_PASSWORD")
 
 
 def download_and_extract_table(table_id: str, year: str, dest_folder="data"):
-    """Direkter Download (nur für kleine Tabellen geeignet)."""
     url = f"{BASE_URL}/tablefile"
     params = {
         "username": USERNAME,
@@ -46,7 +45,6 @@ def download_and_extract_table(table_id: str, year: str, dest_folder="data"):
             raise Exception("❌ Keine CSV-Datei im ZIP gefunden.")
         return os.path.join(dest_folder, csv_files[0])
 
-    # Direkte CSV?
     decoded = response.content.decode("utf-8", errors="ignore")
     if decoded.strip().startswith("﻿") or ";" in decoded:
         csv_path = os.path.join(dest_folder, f"{table_id}_{year}_direct.csv")
@@ -54,12 +52,10 @@ def download_and_extract_table(table_id: str, year: str, dest_folder="data"):
             f.write(decoded)
         return csv_path
 
-    # Fehlertext ausgeben
     print("🪵 Serverantwort-Vorschau (erste 500 Zeichen):")
     print(decoded[:500])
     raise Exception("❌ Unerwartetes Dateiformat. Kein ZIP und keine CSV erkannt.")
 
-# Downloading all years atm, neeed to be fixed (look Documentary)
 def download_and_extract_table_job(table_id: str, year: str, dest_folder="data"):
     os.makedirs(dest_folder, exist_ok=True)
     job_url = f"{BASE_URL}/tablefile?job=true"
@@ -113,9 +109,6 @@ def download_and_extract_table_job(table_id: str, year: str, dest_folder="data")
     print(f"✅ CSV extrahiert: {csv_path}")
     return csv_path
 
-
-
-# Am Ende von src/download_table_auto.py
 def download_and_extract_table_auto(table_id: str, year: str, dest_folder="data"):
     try:
         print("⚡ Versuche Direkt-Download...")
