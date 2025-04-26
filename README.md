@@ -102,7 +102,10 @@ oder
 - `0002` und `0004` sollten kombiniert werden (Umsatz- und Investitionsdaten).
 
 ---
-
+##  Daten Visualisieren
+```bash
+  streamlit run .\streamlit_dashboard.py
+```
 ## ❓ Fehlermeldungen
 
 - **"❌ Download fehlgeschlagen"**: Prüfe API-Zugangsdaten.
