@@ -47,7 +47,10 @@ Tabellen:
 
 ---
 
-## ▶️ Start
+## ▶️ Start (Example)
+
+### Jupyter Notebook
+analyse.ipynb
 
 ### Einzelner Download
 Direkter Download einer Tabelle und Extraktion:
@@ -69,7 +72,7 @@ Beispiele für den Download:
 
 ---
 
-## 🛠️ Daten Bereinigen
+## 🛠️ Daten Bereinigen (Example)
 
 Nach dem Download kannst du die CSV-Dateien bereinigen:
 
@@ -81,7 +84,7 @@ Wiederhole dies für jede heruntergeladene Tabelle.
 
 ---
 
-## 🔗 Daten Zusammenführen
+## 🔗 Daten Zusammenführen (Example)
 
 Um zwei bereinigte CSVs zu kombinieren:
 
