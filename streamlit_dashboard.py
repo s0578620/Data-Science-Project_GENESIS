@@ -91,6 +91,21 @@ if uploaded_files:
     cluster_labels = generate_cluster_labels(df_clustered)
     df_clustered["Cluster_Name"] = df_clustered["Cluster"].map(cluster_labels)
 
+    # Cluster-Details
+    st.subheader("Cluster Details – wichtigste Merkmale")
+
+    selected_cluster = st.selectbox(
+        "Wähle einen Cluster zur Detailansicht:",
+        options=df_clustered["Cluster_Name"].unique()
+    )
+
+    cluster_detail = df_clustered[df_clustered["Cluster_Name"] == selected_cluster][features]
+
+    cluster_summary = cluster_detail.agg(["min", "mean", "max"]).T.round(2)
+    cluster_summary.columns = ["Minimum", "Mittelwert", "Maximum"]
+
+    st.dataframe(cluster_summary)
+
     #Visualisierungen
     st.subheader("PCA 2D-Visualisierung der Cluster")
     fig = px.scatter(
