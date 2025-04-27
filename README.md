@@ -1,3 +1,4 @@
+![Python Version](https://img.shields.io/badge/python-3.12.3+-blue)
 # 📊 GENESIS Daten Download & Verarbeitung
 
 Dieses Projekt lädt Daten aus der **GENESIS-Online Datenbank** der **Destatis** herunter, extrahiert und verarbeitet CSV-Dateien und führt bereinigte Datensätze zusammen.
