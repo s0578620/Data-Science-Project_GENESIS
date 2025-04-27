@@ -8,9 +8,8 @@ from sklearn.decomposition import PCA
 from genesis_preprocessing import clean_genesis_dataframe
 
 st.set_page_config(page_title="Branchen-Cluster Dashboard", layout="wide")
-st.title("Branchen-Cluster Analyse \u00fcber mehrere Jahre")
+st.title("Branchen-Cluster Analyse über mehrere Jahre")
 
-# Helper Functions
 def cluster_and_pca(df, features, k):
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(df[features])
@@ -40,8 +39,28 @@ def generate_cluster_labels(df, feature_sort=None):
             labels[cluster] = f"Großunternehmen #{idx-1}"
     return labels
 
+def plot_elbow_method(df, features, max_k=10):
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(df[features])
 
-uploaded_files = st.file_uploader("W\u00e4hle eine oder mehrere CSV-Dateien (GENESIS-Format)", type="csv", accept_multiple_files=True)
+    inertias = []
+    ks = range(1, max_k + 1)
+    for k in ks:
+        kmeans = KMeans(n_clusters=k, random_state=42)
+        kmeans.fit(X_scaled)
+        inertias.append(kmeans.inertia_)
+
+    fig = px.line(
+        x=list(ks), y=inertias, markers=True,
+        labels={'x': 'Anzahl Cluster (k)', 'y': 'Inertia'},
+        title="Elbow-Methode zur Bestimmung der optimalen Cluster-Anzahl"
+    )
+    st.plotly_chart(fig, use_container_width=True)
+
+uploaded_files = st.file_uploader(
+    "Wähle eine oder mehrere CSV-Dateien (GENESIS-Format)",
+    type="csv", accept_multiple_files=True
+)
 
 if uploaded_files:
     df_list = []
@@ -54,7 +73,6 @@ if uploaded_files:
 
     df_all = pd.concat(df_list, ignore_index=True)
 
-    # Sidebar
     st.sidebar.header("Einstellungen")
 
     raw_features = st.sidebar.multiselect(
@@ -71,13 +89,14 @@ if uploaded_files:
         default=sorted(df_all["Jahr"].unique())
     )
 
+    show_elbow = st.sidebar.checkbox("Elbow-Methode anzeigen", value=False)
+
     k = st.sidebar.slider("Anzahl Cluster (k)", min_value=2, max_value=10, value=3)
 
     # Filtering
     df_filtered = df_all[df_all["Jahr"].isin(jahr_auswahl)]
     df_filtered = clean_genesis_dataframe(df_filtered, raw_features)
 
-    # Optional: Log-Transformation Umsatz
     if "Umsatz" in raw_features and log_transform_umsatz:
         df_filtered["Umsatz_log"] = np.log1p(df_filtered["Umsatz"])
         features = [col if col != "Umsatz" else "Umsatz_log" for col in raw_features]
@@ -86,12 +105,29 @@ if uploaded_files:
 
     df_clean = df_filtered.dropna(subset=features).copy()
 
+    if show_elbow:
+        st.subheader("Elbow-Methode zur Bestimmung der optimalen Cluster-Anzahl")
+        plot_elbow_method(df_clean, features)
+
     # Cluster und PCA anwenden
     df_clustered = cluster_and_pca(df_clean, features, k)
     cluster_labels = generate_cluster_labels(df_clustered)
     df_clustered["Cluster_Name"] = df_clustered["Cluster"].map(cluster_labels)
 
-    #Visualisierungen
+    st.subheader("Cluster Details – wichtigste Merkmale")
+
+    selected_cluster = st.selectbox(
+        "Wähle einen Cluster zur Detailansicht:",
+        options=df_clustered["Cluster_Name"].unique()
+    )
+
+    cluster_detail = df_clustered[df_clustered["Cluster_Name"] == selected_cluster][features]
+
+    cluster_summary = cluster_detail.agg(["min", "mean", "max"]).T.round(2)
+    cluster_summary.columns = ["Minimum", "Mittelwert", "Maximum"]
+
+    st.dataframe(cluster_summary)
+
     st.subheader("PCA 2D-Visualisierung der Cluster")
     fig = px.scatter(
         df_clustered, x="PCA1", y="PCA2", color="Cluster_Name",
@@ -105,7 +141,6 @@ if uploaded_files:
     avg_table = df_clustered.groupby(["Jahr", "Cluster_Name"])[features].mean().round(2)
     st.dataframe(avg_table)
 
-
     if "Jahr" in df_clustered.columns:
         st.subheader("Zeitliche Entwicklung eines Merkmals")
         feature_to_plot = st.selectbox("Wähle ein Merkmal für die Zeitreihe:", features)
@@ -116,10 +151,8 @@ if uploaded_files:
             markers=True,
             title=f"Entwicklung von {feature_to_plot} über die Jahre"
         )
-
         st.plotly_chart(fig_line, use_container_width=True)
 
-    #CSV Export
     st.sidebar.markdown("---")
     st.sidebar.download_button(
         "Exportiere Cluster-Ergebnisse",
