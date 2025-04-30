@@ -1,15 +1,26 @@
-version: '3.9'
+version: "3.9"
 
 services:
   streamlit:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: ds-cluster-app
-    ports:
-      - "8501:8501"
+    build: .
+    container_name: genesis-streamlit
     volumes:
       - .:/app
-    environment:
-      - PYTHONUNBUFFERED=1
-    restart: unless-stopped
+    ports:
+      - "8501:8501"
+    command: streamlit run streamlit_dashboard.py
+
+  download:
+    build: .
+    container_name: genesis-download
+    volumes:
+      - .:/app
+    entrypoint: python download_data.py --run-all
+
+
+  merge:
+    build: .
+    container_name: genesis-merge
+    volumes:
+      - .:/app
+    entrypoint: python merge_all_cleaned.py --run-all
