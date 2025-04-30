@@ -3,7 +3,7 @@
 ___
 Dieses Projekt automatisiert den **Download**, die **Verarbeitung** und **Analyse** von Daten aus der **GENESIS-Online Datenbank** des **Statistischen Bundesamts (Destatis)**.
 ___
-## 📦 ProjektübersichtAD
+## 📦 Projektübersicht
 
 
 ### 📁 Python-Skripte
