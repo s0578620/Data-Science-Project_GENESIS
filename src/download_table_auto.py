@@ -33,7 +33,6 @@ def download_and_extract_table(table_id: str, year: str, dest_folder="data"):
 
     file_bytes = io.BytesIO(response.content)
 
-    # ZIP-Datei?
     if zipfile.is_zipfile(file_bytes):
         zip_path = os.path.join(dest_folder, f"{table_id}_{year}.zip")
         with open(zip_path, "wb") as f:

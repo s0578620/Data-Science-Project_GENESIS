@@ -21,6 +21,8 @@ def load_genesis_csv(csv_path: str, zip_name: str, save_cleaned: bool = True) ->
                 "Unnamed: 1": "Kurzzeichen",
                 "Unnamed: 2": "Wirtschaftszweige"
             })
+            if "Wirtschaftszweige" in df.columns:
+                df = df[df["Wirtschaftszweige"] != "Insgesamt"]
 
             if save_cleaned:
                 cleaned_dir = os.path.join("data", "cleaned")
