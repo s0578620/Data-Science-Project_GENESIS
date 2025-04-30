@@ -11,9 +11,10 @@ Dieses Projekt lädt Daten aus der **GENESIS-Online Datenbank** der **Destatis**
 - `merge_cleaned.py`: Zusammenführen von zwei bereinigten CSV-Dateien.
 
 Tabellen:
-- **0001** & **0002**: Personal- und Umsatzdaten
-- **0003** & **0004**: Einkaufs- und Investitionsdaten
-
+- `0001` & `0002`: Personal- und Umsatzdaten
+- `0003` & `0004`: Einkaufs- und Investitionsdaten
+- `0001` & `0003` sollten kombiniert werden (Personal- und Einkaufsdaten).
+- `0002` & `0004` sollten kombiniert werden (Umsatz- und Investitionsdaten).
 ---
 
 ## ⚙️ Setup
@@ -42,9 +43,7 @@ Tabellen:
    ```env
    GENESIS_USERNAME=dein_benutzername
    GENESIS_PASSWORD=dein_passwort
-   
    ```
-
 ---
 
 ## ▶️ Jupyter Notebook
@@ -67,51 +66,28 @@ Beispiele für den Download:
   python src/download_table_auto.py --table_id 48112-0003 --year 2022
   python src/download_table_auto.py --table_id 48112-0004 --year 2022
 ```
-
-(Bei Bedarf kannst du ein kleines CLI-Skript ergänzen, um `download_table_auto.py` direkt ausführbar zu machen.)
-
 ---
 
-## 🛠️ Daten Bereinigen (Example)
-
-Nach dem Download kannst du die CSV-Dateien bereinigen:
-
-```bash
-  python -c "from src.loader import load_genesis_csv; load_genesis_csv('data/48112-0001_2022.csv', '48112-0001_2022.zip')"
-```
-
-Wiederhole dies für jede heruntergeladene Tabelle.
-
----
-
-## 🔗 Daten Zusammenführen (Example)
-
-Um zwei bereinigte CSVs zu kombinieren:
-
-```bash
-  python -c "from src.merge_cleaned import merge_cleaned_files; merge_cleaned_files('data/cleaned/48112-0001_2022_cleaned.csv', 'data/cleaned/48112-0003_2022_cleaned.csv')"
-```
-
-oder
-
-```bash
-  python -c "from src.merge_cleaned import merge_cleaned_files; merge_cleaned_files('data/cleaned/48112-0002_2022_cleaned.csv', 'data/cleaned/48112-0004_2022_cleaned.csv')"
-```
-
----
-
-## 📚 Hinweise
-
-- `0001` und `0003` sollten kombiniert werden (Personal- und Einkaufsdaten).
-- `0002` und `0004` sollten kombiniert werden (Umsatz- und Investitionsdaten).
-
----
 ##  Daten Visualisieren
 ```bash
   streamlit run .\streamlit_dashboard.py
 ```
-## ❓ Fehlermeldungen
 
+## 🐳 Docker
+Build & Run
+```bash
+  docker-compose up --build
+```
+Run
+```bash
+  docker-compose up
+```
+Stop
+```bash
+  docker-compose down
+```
+
+## ❓ Fehlermeldungen
 - **"❌ Download fehlgeschlagen"**: Prüfe API-Zugangsdaten.
 - **"❌ Keine CSV-Datei im ZIP gefunden"**: Eventuell ist die Tabelle leer oder Download fehlgeschlagen.
 - **"❌ Keine passende Kodierung gefunden"**: Datei könnte beschädigt oder nicht im erwarteten Format sein.
