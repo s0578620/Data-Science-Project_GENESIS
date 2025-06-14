@@ -26,8 +26,6 @@ def clean_genesis_dataframe(df: pd.DataFrame, features: list[str]) -> pd.DataFra
 
     return df
 
-
-# Beispielnutzung:
 if __name__ == "__main__":
     raw_df = pd.read_csv("data/merged/48112-0002_48112-0004_2022_merged.csv", sep=";")
 

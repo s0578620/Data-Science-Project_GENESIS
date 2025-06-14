@@ -17,7 +17,6 @@ services:
       - .:/app
     entrypoint: python download_data.py --run-all
 
-
   merge:
     build: .
     container_name: genesis-merge

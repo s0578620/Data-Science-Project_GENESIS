@@ -1,4 +1,4 @@
-# src/download_table_auto.py
+# src/.py
 import os
 import time
 import requests

@@ -7,4 +7,6 @@ __pycache__/
 data/raw/*
 data/cleaned/*
 data/merged/*
+data/cluster/*
 .zmp/*
+result.md

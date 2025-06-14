@@ -1,20 +1,45 @@
 ![Python Version](https://img.shields.io/badge/python-3.12.3+-blue)
-# 📊 GENESIS Daten Download & Verarbeitung
+
+# 📈 GENESIS Datenanalyse Pipeline
 ___
 Dieses Projekt automatisiert den **Download**, die **Verarbeitung** und **Analyse** von Daten aus der **GENESIS-Online Datenbank** des **Statistischen Bundesamts (Destatis)**.
 ___
-## 📦 Projektübersicht
 
+## 🧭 Inhaltsverzeichnis
 
-### 📁 Python-Skripte
-| Datei                      | Beschreibung                                       |
-|---------------------------|----------------------------------------------------|
-| `download_table_auto.py`  | Automatischer Tabellen-Download per GENESIS-API   |
-| `loader.py`               | Laden & Bereinigen von CSV-Dateien                |
-| `merge_cleaned.py`        | Zusammenführen bereinigter Datensätze             |
-| `streamlit_dashboard.py`  | Interaktive Cluster-Analyse (Streamlit-UI)        |
+- [Projektübersicht](#-projektübersicht)
+- [Tabellenstruktur](#-tabellenstruktur)
+- [Ablaufdiagramm](#-ablaufdiagramm)
+- [Setup & Installation](#-setup--installation)
+- [Docker](#-docker)
+- [Analyse startem](#-analyse-starten)
+- [Fehlermeldungen](#-fehlermeldungen)
 
-### 🧾 Tabellenstruktur
+## 📁 Projektübersicht
+```
+.
+├── images/                             # Diagramme und Visualisierungen
+├── data/                               # Datenverzeichnis
+│   ├── raw/                            # Rohdaten von GENESIS
+│   ├── cleaned/                        # Bereinigte Daten
+│   ├── merged/                         # Zusammengeführte Datensätze
+│   └── cluster/                        # Cluster-Ergebnisse
+├── src/                                # Quellcode
+│   ├── download_table_auto.py          # API-Download
+│   ├── loader.py                       # Datenladefunktionen
+│   └── merge_cleaned.py                # Datenzusammenführung
+├── download_data.py                    # Download-Skript
+├── genesis_preprocessing.py            # GENESIS-Datenvorverarbeitung
+├── merge_all_cleaned.py                # Zusammenführen aller bereinigten Datensätze
+├── analyse.ipynb                       # Jupyter Notebook für die Analyse
+├── cluster_analysis_extended.ipynb     # Jupyter Notebook für erweiterte Cluster-Analyse
+├── docker-compose.yml                  # Multi-Container Setup
+├── Dockerfile                          # Container-Konfiguration
+├── requirements.txt                    # Python-Abhängigkeiten
+└── streamlit_dashboard.py              # Analyse-Dashboard
+```
+___
+## 🧾 Tabellenstruktur
 
 - `0001`, `0002`: Personal & Umsatz  
 - `0003`, `0004`: Einkaufs- & Investitionsdaten
@@ -22,61 +47,43 @@ ___
 🔗 **Kombinationen**:
 - `0001` + `0003` → Personal & Einkauf  
 - `0002` + `0004` → Umsatz & Investitionen
+___
+## 🗂 Ablaufdiagramm
+![](images/FlowChart.png)
+
 ---
-## ⚙️ Setup
 
-1. Virtuelle Umgebung erstellen:
-   ```bash
-   python -m venv .venv
-   ```
-
-2. Virtuelle Umgebung aktivieren:
-   - Windows CMD:
+## 🧪 Setup & Installation
+Repository klonen
+```bash
+  git clone https://github.com/dein-nutzer/einfuehrung_data_science.git
+  cd einfuehrung_data_science
+```
+Virtuelle Umgebung erstellen
+```bash
+    python -m venv .venv
+```
+   - Virtuelle Umgebung aktivieren
      ```bash
+     # Windows CMD:
      .venv\Scripts\activate
      ```
-   - macOS/Linux:
+    
      ```bash
+     # macOS/Linux
      source .venv/bin/activate
      ```
-
-3. Abhängigkeiten installieren:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. Erstelle eine `.env` Datei im Hauptverzeichnis:
+Abhängigkeiten installieren     
+```bash
+  pip install -r requirements.txt
+```
+Erstelle eine `.env` Datei im Hauptverzeichnis
    ```env
+
    GENESIS_USERNAME=dein_benutzername
    GENESIS_PASSWORD=dein_passwort
    ```
----
-## ▶️ Daten herunterladen (Example)
-
-### Einzelner Download
-🔹 Einzeltabelle herunterladen & extrahieren
-
-```bash
-  python -c "from src.download_table_auto import download_and_extract_table_auto; download_and_extract_table_auto('48112-0001', '2022')"
-```
-
-### Weitere Startoptionen
-🔹 Weitere Beispiele:
-
-```bash
-  python src/download_table_auto.py --table_id 48112-0002 --year 2022
-  python src/download_table_auto.py --table_id 48112-0003 --year 2022
-  python src/download_table_auto.py --table_id 48112-0004 --year 2022
-```
----
-
-## 📊 Analyse starten
-▶️ Streamlit Dashboard (lokal)
-```bash
-  streamlit run .\streamlit_dashboard.py
-```
-
-
+___
 ## 🐳 Docker
 Build & Run
 ```bash
@@ -90,10 +97,18 @@ Stop
 ```bash
   docker-compose down
 ```
-
+___
+## 📊 Analyse starten
+Streamlit Dashboard (lokal)
+```bash
+  streamlit run .\streamlit_dashboard.py
+```
+___
 ## ❓ Fehlermeldungen
-| Meldung | Ursache & Lösung |
-|--------|------------------|
-| ❌ `Download fehlgeschlagen` | API-Login prüfen (`.env` korrekt?) |
-| ❌ `Keine CSV im ZIP gefunden` | Tabelle ist leer oder Download fehlerhaft |
-| ❌ `Kodierung nicht lesbar` | Datei defekt oder Format inkompatibel |
+| Häufige Probleme                     | Lösungen                          |
+|--------------------------------|-------------------------------------------|
+| ❌ `API-Zugriff fehlgeschlagen` | API-Login prüfen (`.env` korrekt?)        |
+| ❌ `Fehlende Abhängigkeiten`  | pip install -r requirements.txt erneut ausführen |
+| ❌ `Kodierungsprobleme bei CSV-Daten`     | Spaltennamen auf Konsistenz prüfen (Jahr, Kurzzeichen) |
+| ❌ `Cluster-Visualisierung leer`     | Sicherstellen, dass numerische Spalten ausgewählt sind   |
+

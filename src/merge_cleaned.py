@@ -13,6 +13,7 @@ def merge_cleaned_files(file1: str, file2: str, out_folder="data/merged") -> pd.
     print("🔗 Merging on ['Jahr', 'Kurzzeichen', 'Wirtschaftszweige']")
     merged_df = pd.merge(df1, df2, on=["Jahr", "Kurzzeichen", "Wirtschaftszweige"], how="outer")
 
+
     if "Jahr" not in merged_df.columns:
         raise Exception("❌ 'Jahr'-Spalte fehlt im Merge.")
 
